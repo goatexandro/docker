@@ -10,5 +10,4 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-// Ruta para obtener todas las frutas
 Route::get('/frutas', [FrutasController::class, 'index']);

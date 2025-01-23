@@ -1,26 +1,25 @@
 console.log('Archivo js.js cargado correctamente');
 
 function obtenerFrutas() {
-    fetch('http://localhost:8000/api/frutas') // Cambia la URL si usas otro puerto o ruta
+    fetch('http://localhost:8000/api/frutas') 
         .then(response => {
-            console.log('Estado de la respuesta:', response.status); // Ver el estado de la respuesta
+            console.log('Estado de la respuesta:', response.status); 
             if (!response.ok) {
                 throw new Error(`Error en la respuesta: ${response.status} ${response.statusText}`);
             }
-            return response.json(); // Convertir la respuesta a JSON
+            return response.json(); 
         })
         .then(data => {
-            console.log('Datos recibidos:', data); // Mostrar los datos recibidos en consola
+            console.log('Datos recibidos:', data); 
             const frutasList = document.getElementById('frutas-list');
-            frutasList.innerHTML = ''; // Limpiar la lista antes de añadir nuevos datos
+            frutasList.innerHTML = ''; 
 
             if (Array.isArray(data) && data.length > 0) {
                 data.forEach(fruta => {
-                    // Verifica que las propiedades existan antes de usarlas
-                    const { nombre = 'Desconocido', color = 'No especificado', precio = 'N/A' } = fruta;
+                    const { nombre = 'Desconocido', cantidad = 'N/A' } = fruta;
 
                     const frutaElement = document.createElement('div');
-                    frutaElement.innerHTML = `<strong>${nombre}</strong> - ${color} - $${precio}`;
+                    frutaElement.innerHTML = `<strong>${nombre}</strong> - Cantidad: ${cantidad}`;
                     frutasList.appendChild(frutaElement);
                 });
             } else {
@@ -35,5 +34,4 @@ function obtenerFrutas() {
         });
 }
 
-// Llamamos a la función al cargar la página
 obtenerFrutas();
