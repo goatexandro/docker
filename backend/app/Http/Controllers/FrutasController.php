@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Fruta; // Importamos el modelo Fruta
+use App\Models\Fruta; 
 
 use Illuminate\Http\Request;
 

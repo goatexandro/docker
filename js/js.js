@@ -16,10 +16,10 @@ function obtenerFrutas() {
 
             if (Array.isArray(data) && data.length > 0) {
                 data.forEach(fruta => {
-                    const { nombre = 'Desconocido', cantidad = 'N/A' } = fruta;
+                    const { nombre = 'Desconocido', color = 'No especificado', precio = 'N/A' } = fruta;
 
                     const frutaElement = document.createElement('div');
-                    frutaElement.innerHTML = `<strong>${nombre}</strong> - Cantidad: ${cantidad}`;
+                    frutaElement.innerHTML = `<strong>${nombre}</strong> - ${color} - $${precio}`;
                     frutasList.appendChild(frutaElement);
                 });
             } else {
