@@ -1,0 +1,53 @@
+services:
+  
+  db:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  
+      MYSQL_DATABASE: backend           
+     
+    volumes:
+      - db_data:/var/lib/mysql           
+    networks:
+      - dockerfinal_app-network 
+
+  
+  backend:
+    build:
+      context: ./backend  # Carpeta donde se encuentra el Dockerfile de Laravel
+    container_name: laravel-backend
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db           # Nombre del servicio de la base de datos (docker-compose lo resuelve automáticamente)
+      DB_PORT: 3306
+      DB_DATABASE: backend
+      DB_USERNAME: root
+      DB_PASSWORD: ""       # Contraseña vacía, ya que MYSQL_ALLOW_EMPTY_PASSWORD está activado
+    volumes:
+      - ./backend:/var/www/html  # Montamos el código de Laravel
+    depends_on:
+      - db  # Laravel depende de la base de datos
+    networks:
+      - dockerfinal_app-network
+    ports:
+      - "8000:8000"  # Exponemos el puerto 8000 para el backend
+
+  # Servicio de frontend (HTML/JS)
+  frontend:
+    build:
+      context: ./js  # Carpeta donde se encuentra el Dockerfile del frontend
+    container_name: frontend
+    ports:
+      - "3000:80"  # Exponemos el puerto 80 del contenedor al puerto 3000
+    networks:
+      - dockerfinal_app-network  # Usamos la misma red para que el backend pueda comunicarse con el frontend
+
+# Volúmenes persistentes para la base de datos
+volumes:
+  db_data:
+
+# Redes para comunicación entre contenedores
+networks:
+  dockerfinal_app-network:
+    driver: bridge  # Utilizamos la red por defecto para Docker
